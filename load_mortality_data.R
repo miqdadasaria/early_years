@@ -8,7 +8,7 @@
 
 library(tidyverse)
 
-load("../cost-of-inequality/data/lifetable_and_cost_table.RData")
+load("lifetable_and_cost_table.RData")
 
 rich_poor_mortality_probs = lifetable_and_cost_table$lifetable %>% 
   group_by(MIN_AGE, MAX_AGE, SEX, RICH=IMD_QUINTILE>3) %>% 
