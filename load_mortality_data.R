@@ -10,11 +10,15 @@ library(tidyverse)
 
 load("lifetable_and_cost_table.RData")
 
-rich_poor_mortality_probs = lifetable_and_cost_table$lifetable %>% 
-  group_by(MIN_AGE, MAX_AGE, SEX, RICH=IMD_QUINTILE>3) %>% 
+#Delete quintiles 2 3 4
+lifetable_and_cost_table$lifetable<-subset(lifetable_and_cost_table$lifetable,IMD_QUINTILE>4|IMD_QUINTILE<2)
+#Run assuming rich are top quintile, poor are bottom quintile
+rich_poor_mortality_probs = lifetable_and_cost_table$lifetable %>%
+  group_by(MIN_AGE, MAX_AGE, SEX, RICH=IMD_QUINTILE>4) %>% 
   summarise(death_total=sum(DEATHS), pop_total=sum(POPULATION)) %>% 
   mutate(prob_mort = death_total/pop_total, MALE = SEX=="M") %>%
   ungroup()
+
 
 rich_poor_mortality_probs[rich_poor_mortality_probs$MAX_AGE==85,"MAX_AGE"]=200
 
