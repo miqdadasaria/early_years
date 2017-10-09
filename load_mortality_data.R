@@ -15,7 +15,7 @@ lifetable_and_cost_table$lifetable<-subset(lifetable_and_cost_table$lifetable,IM
 #Run assuming rich are top quintile, poor are bottom quintile
 rich_poor_mortality_probs = lifetable_and_cost_table$lifetable %>%
   group_by(MIN_AGE, MAX_AGE, SEX, RICH=IMD_QUINTILE>4) %>% 
-  summarise(death_total=sum(DEATHS), pop_total=sum(POPULATION)) %>% 
+  dplyr::summarise(death_total=sum(DEATHS), pop_total=sum(POPULATION)) %>% 
   mutate(prob_mort = death_total/pop_total, MALE = SEX=="M") %>%
   ungroup()
 
